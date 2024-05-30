@@ -24,7 +24,7 @@ export default function URLShortener({action}:any) {
     <button type="submit" className="p-2 bg-blue-500 text-white" disabled={pending}>Get Url</button>
    </form>
    <div className={`${!show ? "hidden" : ""}`}>
-     { pending ? "Sending" : `${ state === null ?  "Wait..." : `Your new URL is: ${window.location}/${state.new}`}`}
+     { pending ? "Sending" : `${ state === null ?  "Wait..." : `Your new URL is: ${window.location}${state.new}`}`}
    </div>
   </div>
  );

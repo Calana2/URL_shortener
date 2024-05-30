@@ -3,8 +3,7 @@ import URLShortener from "./urlShortener"
 export default function Home() {
 async function CreateLink(_: any, formData: FormData){
 "use server"
- try {
-  const res = await fetch("http://localhost:3000/api/shortener", {
+ try {const res = await fetch(`http://localhost:${process.env.PORT}/api/shortener`, {
    method:"POST",
    body:formData,
   });
