@@ -13,7 +13,6 @@ async function CreateLink(_: any, formData: FormData){
    console.log(err);
  }
 }
-
   return (
     <main className="flex flex-col items-center justify-center h-screen w-screen pb-10 mt-10 gap-64">
      <URLShortener action={CreateLink}/>
