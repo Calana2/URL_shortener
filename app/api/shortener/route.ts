@@ -1,32 +1,64 @@
 import { NextRequest, NextResponse } from "next/server";
-import crypto from "crypto"
 import { prisma } from "@/prisma/prisma";
+import { Prisma } from "@prisma/client";
+import { z } from "zod";
 
 
-export async function POST(req: NextRequest){
- const payload = await req.formData();
- const SITE = req.url.replace(/^https?:\/\//,'').split('/')[0]
- const url = payload.get('url') as string;
- const ext = Math.floor(Math.random()*(10-2)+2);
- const uuid = crypto.createHash('sha256').update(url).digest('hex').slice(1,ext)
+// Create
+export async function POST(req: NextRequest) {
+  try {
+    const payload = await req.formData();
+    const url = payload.get('url') as string;
+    const alias = payload.get('alias') as string;
 
- const query = await prisma.shortURL.create({
-  data:{
-   domain:url,
-   uuid:uuid,
+
+    // Zod validation
+    const aliasRegex = new RegExp('^[a-zA-Z0-9_-]+$')
+    const schema = z.object({
+      url: z.string()
+        .min(1, { message: "The URL field cannot be empty" })
+        .url({ message: "The URL field must be a URL" }),
+      alias: z.string()
+        .min(3, { message: "The alias field must contain at least 3 characters" })
+        .regex(aliasRegex, { message: "Symbols not allowed in alias" }),
+    })
+
+    schema.parse({ url: url, alias: alias })
+
+
+
+
+    // Prisma interaction with Postgresql
+    await prisma.linker.create({
+      data: {
+        domain: url,
+        alias: alias,
+      }
+    })
+
+    return Response.json({ alias: 'https://' + req.nextUrl.host + '/' + alias }, { status: 200 })
+
+
+  } catch (err) {
+    // Prisma error
+    if (err instanceof Prisma.PrismaClientKnownRequestError) {
+      switch (err.code) {
+        case 'P1001':
+          return Response.json({ errMsg: "Database does not found" }, { status: 404 })
+        case 'P1002':
+          return Response.json({ errMsg: "Database connection time exceeded" }, { status: 500 })
+        case 'P2002':
+          return Response.json({ errMsg: "Alias already exists, try another one" }, { status: 500 })
+        default:
+          return Response.json({ errMsg: "Prisma error" }, { status: 500 })
+      }
+    } else if (err instanceof z.ZodError) {
+      const zodError = err as z.ZodError
+      const issues = zodError.issues
+      return Response.json({ errMsg: issues[0].message }, { status: 500 })
+    }
+
+    // normal error
+    return NextResponse.json({ errMsg: "Database internal error" }, { status: 500 })
   }
- });
-
- if (query !== null){
-  return NextResponse.json({
-   status:"success",
-   new:"https://" + SITE + '/' + uuid,
-  });
- } else {
-  throw new Error("Database Internal Error: Error creating the row");
- }
-}
-
-export async function GET(){
-
 }

@@ -8,17 +8,10 @@ datasource db {
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
-model spatial_ref_sys {
-  srid      Int     @id
-  auth_name String? @db.VarChar(256)
-  auth_srid Int?
-  srtext    String? @db.VarChar(2048)
-  proj4text String? @db.VarChar(2048)
-}
 
-model shortURL {
+model linker {
  id Int @id @default(autoincrement())
- uuid String @unique
- domain String @unique
+ domain String 
+ alias String @unique
 }
 

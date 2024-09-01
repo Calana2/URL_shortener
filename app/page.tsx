@@ -2,22 +2,24 @@ import URLShortener from "./urlShortener"
 
 export default function Home() {
 async function CreateLink(_: any, formData: FormData){
-"use server"
+"use server" // unn
  try {
-  const res = await fetch("http://localhost:3000/api/shortener", {
+   const res = await fetch("http://localhost:3000/api/shortener", {
    method:"POST",
    body:formData,
   });
-  return res.json();
+   const data = await res.json()
+   return data
  } catch (err: any) {
    console.log(err);
  }
 }
 
   return (
-    <main className="flex flex-col items-center justify-center h-screen w-screen pb-10 mt-10 gap-64">
+    <main className="w-svw h-svh flex flex-col items-start justify-between p-10">
      <URLShortener action={CreateLink}/>
      <footer>&copy; All rights reserved - 2024</footer>
     </main>
   );
 }
+

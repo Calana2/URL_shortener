@@ -1,32 +1,60 @@
 "use client"
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
-import { ReactFormState } from "react-dom/client";
 
-export default function URLShortener({action}:any) {
+export default function URLShortener({ action }: any) {
 
- const [show, setShow ] = useState<boolean>(false);
- const [newURL, setNew] = useState<String|undefined>(undefined);
- const [state, formAction] = useFormState<any>(action,null);
- const {pending} = useFormStatus();
+  const [show, setShow] = useState<boolean>(false);
+  const [state, formAction] = useFormState<any>(action, null);
+  const { pending } = useFormStatus();
 
- function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  function handleSubmit(_: React.FormEvent<HTMLFormElement>) {
     setShow(true);
- }
+  }
 
- return(
-  <div className="flex flex-col gap-5">
-   <h1 className="text-3xl font-semibold"> 
-    URL Shortener, put your URL below 
-   </h1>
-   <form className="flex p-2" action={formAction} onSubmit={handleSubmit}>
-    <input className="border-2 w-3/4" type="url" id="url" name="url" required/>
-    <button type="submit" className="p-2 bg-blue-500 text-white" disabled={pending}>Get Url</button>
-   </form>
-   <div className={`${!show ? "hidden" : ""}`}>
-     { pending ? "Sending" : `${ state === null ?  "Wait..." : `Your new URL is: ${state.new}`}`}
-   </div>
-  </div>
- );
+
+
+  return (
+    <div className="flex flex-col w-full md:w-1/2">
+      {/*Banner*/}
+      <h1 className="text-3xl pb-2 mb-8 border-b-2 border-black">
+        kurl: URL shortener
+      </h1>
+
+      {/*Form*/}
+      <form className="flex flex-col gap-2" action={formAction} onSubmit={handleSubmit}>
+        <label>Original URL name</label>
+        <input className="border-2 rounded-sm p-1" type="url"
+          id="url" name="url" required />
+        <label>New name (alias)</label>
+        <input className="border-2 rounded-sm p-1" type="text"
+          id="alias" name="alias" required />
+        <button type="submit" className="mt-2 p-2 bg-blue-500 text-white"
+          disabled={pending}>Create new URL</button>
+      </form>
+
+      {/*Pop ups*/}
+      <div className={`${!show ? "hidden" : ""} mt-10`}>
+        {pending
+          ? "Sending"
+          : state === null
+            ? "Wait..."
+            : (<div>
+              <span>{!state.errMsg
+                ? "Your new URL is"
+                : "Error "
+              }: </span>
+              <span className={`p-1 text-white font-semibold
+                ${!state.errMsg
+                  ? "bg-green-500"
+                  : "bg-red-500"}`}>
+                {!state.errMsg
+                  ? state.alias
+                  : state.errMsg}
+              </span>
+            </div>)}
+      </div>
+    </div>
+  );
 }
