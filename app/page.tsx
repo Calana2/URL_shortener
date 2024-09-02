@@ -4,7 +4,7 @@ export default function Home() {
 async function CreateLink(_: any, formData: FormData){
 "use server" // unn
  try {
-   const res = await fetch("http://localhost:3000/api/shortener", {
+   const res = await fetch("./api/shortener", {
    method:"POST",
    body:formData,
   });
