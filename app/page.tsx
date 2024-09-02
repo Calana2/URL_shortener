@@ -1,8 +1,9 @@
+"use client"
 import URLShortener from "./urlShortener"
+
 
 export default function Home() {
 async function CreateLink(_: any, formData: FormData){
-"use server" // unn
  try {
    const res = await fetch("./api/shortener", {
    method:"POST",
