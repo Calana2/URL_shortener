@@ -2,12 +2,17 @@
 
 ## Getting Started
 
+npm install
+
 #### First modify the .env file:
 
-DATABASE_URL="your_database_connection_query"   // postgresql
+DATABASE_URL="your_database_connection_query"
 
+#### This project uses Prisma ORM
 
-Run the development server:
+npx prisma generate && npx prisma push
+
+#### Run the development server:
 
 ```bash
 npm run dev
