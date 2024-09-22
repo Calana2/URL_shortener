@@ -1,6 +1,6 @@
 import { prisma } from "@/prisma/prisma";
 import { redirect } from "next/navigation";
-import dog from "@/public/dog.png"
+import cat from "@/public/cat.gif"
 import Image from "next/image";
 
 export default async function Page({ params }: { params: { link: string } }) {
@@ -29,9 +29,10 @@ if(domain)
 
  return (
  <div className="flex flex-col w-full h-screen items-center justify-center gap-5">
-  <Image src={dog} alt="_dog" width={350} height={300} className="border-2 border-black"/>
-  <div className="text-2xl font-semibold text-center">Error 404 - Link does not found</div>
-  {(params.link)}
+  <Image src={cat} alt="_dog" width={350} height={300} className=""/>
+  <div className="text-2xl font-semibold text-center z-20 w-1/2 
+   text-white bg-black p-1 break-all">
+   {`Error 404 - Alias "${params.link}" does not found`}</div>
  </div>)
 }
 

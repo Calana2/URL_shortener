@@ -17,9 +17,11 @@ async function CreateLink(_: any, formData: FormData){
 }
 
   return (
-    <main className="w-svw h-svh flex flex-col items-start justify-between p-10">
-     <URLShortener action={CreateLink}/>
-     <footer>&copy; All rights reserved - 2024</footer>
+    <main className="w-svw h-svh flex flex-col items-center justify-between p-10">
+      <URLShortener action={CreateLink}/>
+     <footer className="font-semibold text-white">
+      Contact: kalcast00@proton.me
+     </footer>
     </main>
   );
 }

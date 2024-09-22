@@ -5,7 +5,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "kurl, url shortener",
+  title: "URL shortener",
   description: "The most simple url shortener",
 };
 
@@ -16,7 +16,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={`${inter.className}`}
+       style={{background: "linear-gradient(to bottom right,#1111ff,#ff00ff)"}}
+      >{children}</body>
     </html>
   );
 }
