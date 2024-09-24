@@ -30,9 +30,9 @@ if(domain)
  return (
  <div className="flex flex-col w-full h-screen items-center justify-center gap-5">
   <Image src={cat} alt="_dog" width={350} height={300} className=""/>
-  <div className="text-2xl font-semibold text-center z-20 w-1/2 
-   text-white bg-black p-1 break-all">
-   {`Error 404 - Alias "${params.link}" does not found`}</div>
+  <div className="md:text-base font-semibold text-center z-20 w-1/2 
+   text-white p-1 break-words text-sm">
+   {`Error 404 - Alias does not found`}</div>
  </div>)
 }
 

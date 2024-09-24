@@ -48,7 +48,7 @@ export async function POST(req: NextRequest) {
         case 'P1002':
           return Response.json({ errMsg: "Database connection time exceeded" }, { status: 500 })
         case 'P2002':
-          return Response.json({ errMsg: "Alias already exists, try another one" }, { status: 500 })
+          return Response.json({ errMsg: "Alias already exists" }, { status: 500 })
         default:
           return Response.json({ errMsg: "Prisma error" }, { status: 500 })
       }

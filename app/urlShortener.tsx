@@ -27,9 +27,11 @@ export default function URLShortener({ action }: any) {
       <form className="flex flex-col gap-2 text-white" action={formAction} onSubmit={handleSubmit}>
         <label className="font-semibold">Original URL name</label>
         <input className="border-2 rounded-sm p-1 text-black" type="url"
+          placeholder="http://site.com/?q=long_string_of_characters"
           id="url" name="url" required />
         <label className="font-semibold">New name (alias)</label>
-        <input className="border-2 rounded-sm p-1 text-black" type="text"
+        <input className="border-2 rounded-sm p-1 text-black" type="text" 
+          placeholder="awesome_name"
           id="alias" name="alias" required />
         <div className="flex justify-center">
          <button type="submit" className="mt-2 p-2 shadow-md rounded-md font-medium"
@@ -49,10 +51,10 @@ export default function URLShortener({ action }: any) {
                 ? "Your new URL is"
                 : "Error "
               }: </span>
-              <span className={`p-1 font-medium text-black
+              <span className={`p-1 px-2 font-medium text-black md:text-base text-sm rounded-md
                 ${!state.errMsg
                   ? "bg-white"
-                  : "bg-red-500"}`}>
+                  : "bg-red-500 text-white"}`}>
                 {!state.errMsg
                   ? state.alias
                   : state.errMsg}
